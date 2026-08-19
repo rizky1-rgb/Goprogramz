@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoProgramz - Login</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Barlow Semi Condensed & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Barlow Semi Condensed"', '"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        navBlue: '#208cf0',
+                        cardBg: '#e2e2e2',
+                        inputBg: '#d6d6d6',
+                        inputBorder: '#27272a',
+                        brandBlue: '#2094f3',
+                        brandBlueHover: '#1976d2'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Barlow Semi Condensed', sans-serif;
+            letter-spacing: 0.01em;
+        }
+
+        .bg-coding-overlay {
+            background-image: 
+                linear-gradient(to bottom, rgba(12, 34, 66, 0.82), rgba(10, 26, 50, 0.88)),
+                url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .login-card {
+            background-color: #e2e2e2;
+            border-radius: 28px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        .custom-input {
+            background-color: #d6d6d6;
+            border: 1.5px solid #27272a;
+            border-radius: 12px;
+            color: #0f172a;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .custom-input::placeholder {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            background-color: #ffffff;
+            border-color: #2094f3;
+            box-shadow: 0 0 0 3px rgba(32, 148, 243, 0.25);
+        }
+
+        .btn-login {
+            background-color: #2094f3;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-login:hover {
+            background-color: #1976d2;
+            transform: translateY(-1px);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .logo-text {
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-sky-200 selection:text-sky-900">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="w-full bg-[#208cf0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Left Navigation Links -->
+            <nav class="flex items-center space-x-6 sm:space-x-12 text-lg sm:text-xl font-extrabold tracking-wider">
+                <a href="index.html" onclick="showNotice('Navigasi ke Beranda')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
+                <a href="#materi" onclick="showNotice('Navigasi ke Materi')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
+                <a href="#praktek" onclick="showNotice('Navigasi ke Praktek')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
+            </nav>
+
+            <!-- Center Logo -->
+            <div class="text-2xl sm:text-3xl font-black tracking-tight cursor-pointer">
+            <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
+        </div>
+
+            <!-- Right Register Button -->
+            <div>
+                <button 
+                    type="button" 
+                    onclick="showNotice('Membuka Form Pendaftaran')" 
+                    class="bg-[#e0e0e0] hover:bg-white text-[#1e88e5] font-extrabold px-6 py-1.5 rounded-full text-sm sm:text-base transition-all shadow-sm"
+                >
+                    <a href="daftar.html" >DAFTAR</a>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER WITH CODE OVERLAY BACKGROUND -->
+    <main class="flex-1 w-full bg-coding-overlay flex items-center justify-center p-4 py-12 relative">
+        
+        <!-- LOGIN CARD (EXACT MOCKUP) -->
+        <div class="w-full max-w-[390px] login-card px-7 py-9 sm:px-8 sm:py-10 text-center relative z-10 transition-all">
+            
+            <!-- Title -->
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-950 tracking-normal mb-6">
+                Login ke GoProgramz
+            </h1>
+
+            <!-- Form -->
+            <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-3.5">
+                
+                <!-- Email / Username Input -->
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="usernameInput" 
+                        required 
+                        placeholder="E-Mail/Username" 
+                        class="w-full px-4 py-2.5 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                    >
+                </div>
+
+                <!-- Password Input -->
+                <div class="relative">
+                    <input 
+                        type="password" 
+                        id="passwordInput" 
+                        required 
+                        placeholder="Password" 
+                        class="w-full px-4 py-2.5 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal pr-10"
+                    >
+                    <button 
+                        type="button" 
+                        onclick="togglePasswordVisibility()" 
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-900 focus:outline-none p-1"
+                        title="Tampilkan / Sembunyikan Password"
+                    >
+                        <i id="eyeIcon" class="fa-regular fa-eye text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- Forgot Password Link -->
+                <div class="pt-0.5">
+                    <p class="text-xs sm:text-[13px] font-semibold text-slate-950 tracking-normal">
+                        Lupa password anda?<button 
+                            type="button" 
+                            onclick="openResetModal()" 
+                            class="text-[#2094f3] hover:underline font-bold transition-colors focus:outline-none ml-1"
+                        >Reset password</button>
+                    </p>
+                </div>
+
+                <!-- Login Submit Button -->
+                <div class="pt-2 flex justify-center">
+                    <button 
+                        type="submit" 
+                        id="submitBtn"
+                        class="btn-login text-white font-bold px-8 py-1.5 rounded-full text-base sm:text-lg shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center justify-center min-w-[100px]"
+                    >
+                        <span>Login</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Register Prompt Link -->
+            <div class="mt-4">
+                <p class="text-xs sm:text-[13px] font-semibold text-slate-950 tracking-normal">
+                    Belum Punya Akun?<button 
+                        type="button" 
+                        onclick="showNotice('Navigasi ke Halaman Pendaftaran')" 
+                        class="text-[#2094f3] hover:underline font-bold transition-colors focus:outline-none ml-1"
+                    > <a href="daftar.html" >Daftar Sekarang!</a></button>
+                </p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- RESET PASSWORD MODAL -->
+    <div id="resetModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 transition-all">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl transform scale-95 transition-transform duration-200" id="resetModalContent">
+            <div class="w-12 h-12 bg-sky-100 text-[#2094f3] rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-key"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Reset Password</h3>
+            <p class="text-sm text-slate-600 mb-4">Masukkan E-Mail Anda untuk menerima tautan pemulihan kata sandi.</p>
+            
+            <form onsubmit="handleResetSubmit(event)" class="space-y-3">
+                <input 
+                    type="email" 
+                    required 
+                    placeholder="E-Mail Anda" 
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#2094f3]"
+                >
+                <div class="flex space-x-2 pt-2">
+                    <button 
+                        type="button" 
+                        onclick="closeResetModal()" 
+                        class="w-1/2 py-2 rounded-xl text-slate-700 font-semibold hover:bg-slate-100 text-sm transition-colors"
+                    >
+                        Batal
+                    </button>
+                    <button 
+                        type="submit" 
+                        class="w-1/2 py-2 bg-[#2094f3] hover:bg-[#1976d2] text-white rounded-xl font-semibold text-sm transition-colors shadow-sm"
+                    >
+                        Kirim
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl hidden items-center space-x-3 z-50 border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toastText" class="text-sm font-semibold"></span>
+    </div>
+
+    <script>
+        // Toggle Password Input Visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Handle Login Submission
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i>';
+
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showNotice('Login Berhasil! Selamat Datang.');
+                document.getElementById('loginForm').reset();
+            }, 1000);
+        }
+
+        // Open Reset Password Modal
+        function openResetModal() {
+            const modal = document.getElementById('resetModal');
+            const modalContent = document.getElementById('resetModalContent');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        // Close Reset Password Modal
+        closeResetModal = function() {
+            const modal = document.getElementById('resetModal');
+            const modalContent = document.getElementById('resetModalContent');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 150);
+        }
+
+        // Handle Reset Password Form
+        function handleResetSubmit(event) {
+            event.preventDefault();
+            closeResetModal();
+            showNotice('Link reset password telah dikirim ke e-mail Anda!');
+        }
+
+        // Show Toast Notification
+        function showNotice(message) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            toastText.innerText = message;
+            
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
