@@ -1,10 +1,396 @@
 <!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
 <head>
-    <title>Goprogramz</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoProgramz - Belajar Pemrograman & Game Development</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans / Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#38bdf8',
+                            DEFAULT: '#0284c7',
+                            dark: '#0369a1',
+                            accent: '#00A3FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar & glassmorphism enhancements */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .hero-bg {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(14, 116, 144, 0.85) 100%), 
+                        url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.2), 0 8px 10px -6px rgba(2, 132, 199, 0.1);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
-<body>
-    <h1>halo</h1>
+<body class="bg-gray-100 font-sans text-slate-800 antialiased flex flex-col min-h-screen">
 
+    <!-- Header Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 pt-4 px-4 sm:px-8">
+        <div id="navContainer" class="max-w-7xl mx-auto flex items-center justify-between bg-white/90 backdrop-blur-md px-6 py-2.5 rounded-full shadow-lg border border-white/40 transition-all duration-300">
+            <!-- Navigation Links Left -->
+            <nav id="navLeft" class="hidden md:flex items-center space-x-6 text-sm font-bold tracking-wider text-slate-700 transition-all duration-300">
+                <a href="#beranda" class="hover:text-brand transition-colors duration-200">BERANDA</a>
+                <a href="#materi" class="hover:text-brand transition-colors duration-200">MATERI</a>
+                <a href="#praktek" class="hover:text-brand transition-colors duration-200">PRAKTEK</a>
+            </nav>
+
+            <!-- Brand Logo Center -->
+            <div id="navLogo" class="text-2xl font-black tracking-tight cursor-pointer transition-all duration-300" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <span class="text-sky-400">Go</span><span class="text-sky-600">Programz</span>
+            </div>
+
+            <!-- Action Buttons Right (Transforming Daftar & Login into Search Bar on Scroll) -->
+            <div id="navRight" class="flex items-center space-x-3 transition-all duration-300">
+                <!-- Auth Buttons (Visible at Top, Hides on Scroll) -->
+                <div id="authButtons" class="flex items-center space-x-3 transition-all duration-300">
+                    <button onclick="openModal('modalDaftar')" class="bg-sky-400 hover:bg-sky-500 text-white font-bold px-5 py-1.5 rounded-full text-xs sm:text-sm tracking-wide transition-all transform hover:scale-105 shadow-md whitespace-nowrap">
+                        DAFTAR
+                    </button>
+                    <button onclick="openModal('modalLogin')" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-5 py-1.5 rounded-full text-xs sm:text-sm tracking-wide transition-all transform hover:scale-105 shadow-md whitespace-nowrap">
+                        LOGIN
+                    </button>
+                </div>
+
+                <!-- Search Bar (Appears in place of Daftar & Login on Scroll) -->
+                <div id="navbarSearchBar" class="hidden opacity-0 scale-95 items-center bg-slate-100 hover:bg-white rounded-full px-3.5 py-1.5 transition-all duration-300 ease-in-out border border-slate-200 shadow-inner w-44 sm:w-64 focus-within:w-56 sm:focus-within:w-80 focus-within:ring-2 focus-within:ring-sky-400">
+                    <i class="fa-solid fa-magnifying-glass text-sky-500 text-xs sm:text-sm mr-2 flex-shrink-0"></i>
+                    <input type="text" id="navbarSearchInput" oninput="handleNavbarSearch(this.value)" placeholder="Cari materi kelas..." class="bg-transparent text-xs text-slate-800 placeholder-slate-400 border-none outline-none w-full font-medium">
+                    <button onclick="clearSearch()" title="Bersihkan Pencarian" class="text-slate-400 hover:text-slate-600 text-xs w-5 h-5 rounded-full flex items-center justify-center bg-slate-200/60 hover:bg-slate-200 ml-1 flex-shrink-0">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Profile Icon -->
+                <button onclick="openModal('modalProfile')" class="w-9 h-9 bg-sky-500 rounded-full flex items-center justify-center text-white hover:bg-sky-600 transition-colors shadow-md flex-shrink-0 ml-1" title="Profil Pengguna">
+                    <i class="fa-solid fa-user text-sm"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Toggle -->
+        <div id="mobileNav" class="md:hidden flex justify-center mt-2 transition-all duration-300">
+            <div class="bg-white/90 backdrop-blur-md px-6 py-1.5 rounded-full shadow-md flex space-x-6 text-xs font-bold text-slate-700">
+                <a href="#beranda" class="hover:text-brand">BERANDA</a>
+                <a href="#materi" class="hover:text-brand">MATERI</a>
+                <a href="#praktek" class="hover:text-brand">PRAKTEK</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="hero-bg min-h-[580px] sm:min-h-[650px] flex items-center justify-start pt-28 pb-16 px-6 sm:px-12 md:px-20 relative text-white">
+        <div class="max-w-4xl mt-12 sm:mt-8">
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-none mb-6 drop-shadow-md">
+                Selamat Datang<br>
+                <span class="text-white">Go</span><span class="text-sky-400">Programz</span>
+            </h1>
+            
+            <a href="#materi" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold text-base sm:text-lg px-8 py-3 rounded-full transition-all duration-300 shadow-xl hover:shadow-sky-500/50 hover:-translate-y-1">
+                <span>Jelajahi GoProgramz</span>
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Class Materials Section -->
+    <section id="materi" class="py-16 px-4 sm:px-8 bg-gray-200/80 flex-grow">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-sky-500 font-bold text-lg sm:text-xl tracking-wider uppercase mb-1">
+                    MATERI KELAS
+                </h2>
+                <h3 class="text-slate-700 font-extrabold text-xl sm:text-3xl tracking-tight uppercase">
+                    PENGEMBANGAN PERANGKAT LUNAK GAME
+                </h3>
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-2 sm:px-6">
+                <!-- Navigation Buttons (Kiri & Kanan) -->
+                <button onclick="scrollMateriCards(-1)" class="absolute -left-2 sm:-left-5 top-1/2 -translate-y-1/2 z-20 bg-white/95 hover:bg-sky-500 text-sky-600 hover:text-white w-12 h-12 rounded-full shadow-2xl border border-sky-100 flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none" title="Geser Kiri">
+                    <i class="fa-solid fa-chevron-left text-lg"></i>
+                </button>
+                
+                <button onclick="scrollMateriCards(1)" class="absolute -right-2 sm:-right-5 top-1/2 -translate-y-1/2 z-20 bg-white/95 hover:bg-sky-500 text-sky-600 hover:text-white w-12 h-12 rounded-full shadow-2xl border border-sky-100 flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none" title="Geser Kanan">
+                    <i class="fa-solid fa-chevron-right text-lg"></i>
+                </button>
+
+                <!-- Cards Slider Container -->
+                <div id="materiCardContainer" class="flex overflow-x-auto gap-5 scroll-smooth py-4 px-2 no-scrollbar snap-x snap-mandatory">
+
+                    <!-- 1. FRONTEND -->
+                    <div class="snap-start flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] group bg-sky-500 rounded-3xl overflow-hidden flex flex-col justify-between h-80 sm:h-96 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border border-sky-400" onclick="showCourseDetail('Frontend Development', 'Pelajari pembuatan antarmuka web modern dengan HTML5, Tailwind CSS, JavaScript, React JS, dan Vue JS untuk menciptakan pengalaman pengguna yang reponsif.')">
+                        <div class="p-5 flex flex-col items-center justify-center flex-grow text-white">
+                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-code text-3xl text-white"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-sky-400/60 px-3 py-1 rounded-full text-white mb-2">12 Modul</span>
+                            <p class="text-xs text-center text-sky-100 opacity-80 group-hover:opacity-100 transition-opacity">HTML, CSS, JS, React</p>
+                        </div>
+                        <div class="bg-sky-400/90 py-3.5 px-2 text-center text-white font-bold text-sm sm:text-xs md:text-sm tracking-wide uppercase border-t border-sky-300/40 group-hover:bg-sky-600 transition-colors">
+                            FRONTEND
+                        </div>
+                    </div>
+
+                    <!-- 2. AI ENGINEERING -->
+                    <div class="snap-start flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] group bg-sky-500 rounded-3xl overflow-hidden flex flex-col justify-between h-80 sm:h-96 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border border-sky-400" onclick="showCourseDetail('AI Engineering', 'Kuasai Kecerdasan Buatan, Machine Learning, Python, PyTorch, serta pembuatan model AI terapan untuk industri game dan aplikasi modern.')">
+                        <div class="p-5 flex flex-col items-center justify-center flex-grow text-white">
+                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-brain text-3xl text-white"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-sky-400/60 px-3 py-1 rounded-full text-white mb-2">16 Modul</span>
+                            <p class="text-xs text-center text-sky-100 opacity-80 group-hover:opacity-100 transition-opacity">Python, ML, Neural Nets</p>
+                        </div>
+                        <div class="bg-sky-400/90 py-3.5 px-2 text-center text-white font-bold text-sm sm:text-xs md:text-sm tracking-wide uppercase border-t border-sky-300/40 group-hover:bg-sky-600 transition-colors">
+                            AI ENGINEERING
+                        </div>
+                    </div>
+
+                    <!-- 3. GAME DEVELOPMENT -->
+                    <div class="snap-start flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] group bg-sky-500 rounded-3xl overflow-hidden flex flex-col justify-between h-80 sm:h-96 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border border-sky-400" onclick="showCourseDetail('Game Development', 'Pelajari engine game populer seperti Unity, Unreal Engine, Godot, logika C#, mekanik game 2D & 3D, physics, dan AI musuh.')">
+                        <div class="p-5 flex flex-col items-center justify-center flex-grow text-white">
+                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-gamepad text-3xl text-white"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-sky-400/60 px-3 py-1 rounded-full text-white mb-2">20 Modul</span>
+                            <p class="text-xs text-center text-sky-100 opacity-80 group-hover:opacity-100 transition-opacity">Unity, C#, Unreal Engine</p>
+                        </div>
+                        <div class="bg-sky-400/90 py-3.5 px-2 text-center text-white font-bold text-sm sm:text-xs md:text-sm tracking-wide uppercase border-t border-sky-300/40 group-hover:bg-sky-600 transition-colors">
+                            GAME DEVELOPEMENT
+                        </div>
+                    </div>
+
+                    <!-- 4. BACKEND -->
+                    <div class="snap-start flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] group bg-sky-500 rounded-3xl overflow-hidden flex flex-col justify-between h-80 sm:h-96 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border border-sky-400" onclick="showCourseDetail('Backend Development', 'Membangun API handal, pengelolaan database MySQL/MongoDB, Node.js, Golang, arsitektur microservices, dan keamanan server.')">
+                        <div class="p-5 flex flex-col items-center justify-center flex-grow text-white">
+                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-server text-3xl text-white"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-sky-400/60 px-3 py-1 rounded-full text-white mb-2">14 Modul</span>
+                            <p class="text-xs text-center text-sky-100 opacity-80 group-hover:opacity-100 transition-opacity">Node.js, Express, SQL</p>
+                        </div>
+                        <div class="bg-sky-400/90 py-3.5 px-2 text-center text-white font-bold text-sm sm:text-xs md:text-sm tracking-wide uppercase border-t border-sky-300/40 group-hover:bg-sky-600 transition-colors">
+                            BACKEND
+                        </div>
+                    </div>
+
+                    <!-- 5. MOBILE APP -->
+                    <div class="snap-start flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] group bg-sky-500 rounded-3xl overflow-hidden flex flex-col justify-between h-80 sm:h-96 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border border-sky-400" onclick="showCourseDetail('Mobile App Development', 'Pengembangan aplikasi mobile lintas platform (Cross-Platform) dengan Flutter, React Native, serta native Android Kotlin & iOS Swift.')">
+                        <div class="p-5 flex flex-col items-center justify-center flex-grow text-white">
+                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-mobile-screen-button text-3xl text-white"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-sky-400/60 px-3 py-1 rounded-full text-white mb-2">15 Modul</span>
+                            <p class="text-xs text-center text-sky-100 opacity-80 group-hover:opacity-100 transition-opacity">Flutter, Dart, React Native</p>
+                        </div>
+                        <div class="bg-sky-400/90 py-3.5 px-2 text-center text-white font-bold text-sm sm:text-xs md:text-sm tracking-wide uppercase border-t border-sky-300/40 group-hover:bg-sky-600 transition-colors">
+                            MOBILE APP
+                        </div>
+                    </div>
+
+                    <!-- 6. UI UX DESIGN -->
+                    <div class="snap-start flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] group bg-sky-500 rounded-3xl overflow-hidden flex flex-col justify-between h-80 sm:h-96 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border border-sky-400" onclick="showCourseDetail('UI / UX Design', 'Metode perancangan Wireframing, Prototyping interaktif di Figma, Design System, serta User Research untuk aplikasi dan game.')">
+                        <div class="p-5 flex flex-col items-center justify-center flex-grow text-white">
+                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-pen-ruler text-3xl text-white"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-sky-400/60 px-3 py-1 rounded-full text-white mb-2">10 Modul</span>
+                            <p class="text-xs text-center text-sky-100 opacity-80 group-hover:opacity-100 transition-opacity">Figma, Prototype, UX Research</p>
+                        </div>
+                        <div class="bg-sky-400/90 py-3.5 px-2 text-center text-white font-bold text-sm sm:text-xs md:text-sm tracking-wide uppercase border-t border-sky-300/40 group-hover:bg-sky-600 transition-colors">
+                            UI UX DESIGN
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Slider Controls & Auto-play Status -->
+                <div class="flex items-center justify-center gap-3 mt-6">
+                    <button onclick="toggleAutoPlay()" id="autoPlayBtn" class="text-xs font-semibold text-slate-700 bg-white px-4 py-2 rounded-full shadow border border-slate-200 flex items-center gap-2 hover:bg-sky-50 transition-all active:scale-95">
+                        <i id="autoPlayIcon" class="fa-solid fa-pause text-sky-500"></i>
+                        <span id="autoPlayText">Jeda Geser Otomatis</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Footer Section -->
+    <footer class="bg-gradient-to-b from-sky-400 via-sky-500 to-sky-600 text-white pt-12 pb-8 px-6 sm:px-12 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+            <!-- Footer Logo -->
+            <div class="text-3xl font-black tracking-tight cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="flex items-center space-x-8 text-sm font-bold tracking-wider">
+                <a href="#beranda" class="hover:underline">BERANDA</a>
+                <a href="#materi" class="hover:underline">MATERI</a>
+                <a href="#praktek" class="hover:underline">PRAKTEK</a>
+            </div>
+        </div>
+
+        <!-- Copyright Line -->
+        <div class="text-center pt-6 border-t border-sky-300/30 text-xs text-sky-100">
+            2026 GoProgramz. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Modal Login -->
+    <div id="modalLogin" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl border border-slate-100 relative animate-fade-in">
+            <button onclick="closeModal('modalLogin')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center bg-slate-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-slate-800 mb-1">Masuk ke GoProgramz</h3>
+            <p class="text-xs text-slate-500 mb-6">Lanjutkan pembelajaran dan akses ruang kelas Anda.</p>
+            
+            <form onsubmit="handleFormSubmit(event, 'Login berhasil!')" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Email</label>
+                    <input type="email" required placeholder="nama@email.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Kata Sandi</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500">
+                </div>
+                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl shadow-md transition-all">
+                    Masuk Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Daftar -->
+    <div id="modalDaftar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl border border-slate-100 relative">
+            <button onclick="closeModal('modalDaftar')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center bg-slate-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-slate-800 mb-1">Daftar Akun Baru</h3>
+            <p class="text-xs text-slate-500 mb-6">Bergabung dengan ribuan developer & game dev di Indonesia.</p>
+            
+            <form onsubmit="handleFormSubmit(event, 'Pendaftaran berhasil! Silakan login.')" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap</label>
+                    <input type="text" required placeholder="Nama Anda" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Email</label>
+                    <input type="email" required placeholder="nama@email.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Kata Sandi</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500">
+                </div>
+                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl shadow-md transition-all">
+                    Buat Akun Gratis
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Profil / User Status -->
+    <div id="modalProfile" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 w-full max-w-sm shadow-2xl border border-slate-100 relative text-center">
+            <button onclick="closeModal('modalProfile')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center bg-slate-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-20 h-20 bg-sky-500 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800">Siswa GoProgramz</h3>
+            <p class="text-xs text-slate-500 mb-4">siswa@goprogramz.id</p>
+            <div class="bg-sky-50 p-4 rounded-2xl mb-6 text-left space-y-2 text-xs">
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Status Akun:</span>
+                    <span class="font-bold text-emerald-600">Aktif (Premium)</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Kelas Diikuti:</span>
+                    <span class="font-bold text-sky-600">3 Kelas</span>
+                </div>
+            </div>
+            <button onclick="closeModal('modalProfile')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-sm transition-all">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Detail Kelas -->
+    <div id="modalCourseDetail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 w-full max-w-lg shadow-2xl border border-slate-100 relative">
+            <button onclick="closeModal('modalCourseDetail')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center bg-slate-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="inline-block bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-xs font-bold mb-3">Detail Kurikulum</div>
+            <h3 id="courseDetailTitle" class="text-2xl font-bold text-slate-800 mb-2"></h3>
+            <p id="courseDetailDesc" class="text-sm text-slate-600 leading-relaxed mb-6"></p>
+
+            <div class="flex gap-3">
+                <button onclick="alertNotification('Daftar kelas berhasil dimasukkan ke akun Anda!')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl shadow-md text-sm transition-all">
+                    Ikuti Kelas Ini
+                </button>
+                <button onclick="closeModal('modalCourseDetail')" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl text-sm transition-all">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Box -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl hidden items-center space-x-3 z-50 border border-slate-700">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-medium"></span>
+    </div>
+
+    <script src="js.js">
+    </script>
 </body>
 </html>
