@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoProgramz - Daftar Akun</title>
+    <title>GoProgramz - Daftar</title>
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
+    
+    <!-- Google Fonts: Barlow Semi Condensed & Oswald for authentic condensed text styling -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-   <script>
+
+    <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Barlow Semi Condensed"', '"Plus Jakarta Sans"', 'sans-serif'],
+                        condensed: ['"Barlow Semi Condensed"', '"Oswald"', 'sans-serif'],
+                        sans: ['"Barlow Semi Condensed"', 'sans-serif'],
                     },
                     colors: {
-                        navBlue: '#208cf0',
+                        navBlue: '#208ef0',
                         cardBg: '#e2e2e2',
                         inputBg: '#d6d6d6',
                         inputBorder: '#27272a',
@@ -31,153 +35,214 @@
                 }
             }
         }
-        </script>
+    </script>
+
     <style>
+        body {
+            font-family: 'Barlow Semi Condensed', sans-serif;
+            letter-spacing: 0.01em;
+            user-select: none;
+        }
+
+        /* Coding background with precise dark blue overlay and laptop code scene */
         .bg-coding-overlay {
             background-image: 
-                linear-gradient(to bottom, rgba(12, 34, 66, 0.82), rgba(10, 26, 50, 0.88)),
+                linear-gradient(to bottom, rgba(12, 38, 72, 0.86), rgba(8, 24, 48, 0.92)),
                 url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
-        /* Custom styles to match exact mock visual */
-        .card-shadow {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+        /* Signup card matching image geometry */
+        .register-card {
+            background-color: #e2e2e2;
+            border-radius: 28px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Form input fields with clean border and placeholder styling */
+        .custom-input {
+            background-color: #d6d6d6;
+            border: 1.5px solid #27272a;
+            border-radius: 12px;
+            color: #0f172a;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .custom-input::placeholder {
+            color: #27272a;
+            font-weight: 600;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            background-color: #ffffff;
+            border-color: #2094f3;
+            box-shadow: 0 0 0 3px rgba(32, 148, 243, 0.25);
+        }
+
+        /* Custom oval button styling */
+        
+
+        .logo-text {
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
-<body class="font-sans antialiased bg-slate-900 min-h-screen flex flex-col justify-between">
+<body class="bg-slate-900 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
-     <!-- TOP NAVIGATION BAR -->
-    <header class="w-full bg-[#208cf0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
+    <!-- TOP NAVIGATION BAR -->
+    <header class="w-full bg-[#208ef0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
             <!-- Left Navigation Links -->
             <nav class="flex items-center space-x-6 sm:space-x-12 text-lg sm:text-xl font-extrabold tracking-wider">
-                <a href="index.html" onclick="showNotice('Navigasi ke Beranda')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
-                <a href="#materi" onclick="showNotice('Navigasi ke Materi')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
-                <a href="#praktek" onclick="showNotice('Navigasi ke Praktek')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
+                <a href="index.html" onclick="showNotice('Navigasi ke BERANDA')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
+                <a href="#materi" onclick="showNotice('Navigasi ke MATERI')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
+                <a href="#praktek" onclick="showNotice('Navigasi ke PRAKTEK')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
             </nav>
 
             <!-- Center Logo -->
             <div class="text-2xl sm:text-3xl font-black tracking-tight cursor-pointer">
             <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
+        </div>
+            <!-- Right Login Button -->
+            <div>
+                <button 
+                    type="button" 
+                    onclick="showNotice('Navigasi ke Halaman Login')" 
+                    class="bg-[#e2e2e2] hover:bg-white text-[#208ef0] font-bold px-6 sm:px-8 py-1.5 rounded-full text-base sm:text-lg shadow-sm hover:shadow transition-all transform active:scale-95"
+                >
+                    <a href="login.html">Login</a>
+                </button>
             </div>
-        <!-- Right Login Button -->
-        <div>
-            <button class="bg-[#e0e0e0] hover:bg-white text-[#1e88e5] font-extrabold px-6 py-1.5 rounded-full text-sm sm:text-base transition-all shadow-sm">
-                 <a href="login.html" >Login</a>
-            </button>
         </div>
     </header>
 
-    <!-- Main Auth Background Container -->
-    <main class="relative flex-grow flex items-center justify-center py-10 px-4 overflow-hidden">
-        <!-- MAIN CONTENT CONTAINER WITH CODE OVERLAY BACKGROUND -->
+    <!-- MAIN CONTENT CONTAINER WITH CODE OVERLAY BACKGROUND -->
     <main class="flex-1 w-full bg-coding-overlay flex items-center justify-center p-4 py-12 relative">
-
-        <!-- Center Register Card (Matches Image Exactly) -->
-        <div id="registerCardView" class="relative z-10 w-full max-w-md bg-[#e3e3e3] text-slate-800 rounded-[32px] p-8 sm:p-10 card-shadow border border-white/20 transition-all transform duration-300">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-slate-900 mb-8 tracking-tight">
+        
+        <!-- REGISTER CARD (EXACT MATCHING IMAGE) -->
+        <div class="w-full max-w-[390px] register-card px-7 py-8 sm:px-8 sm:py-9 text-center relative z-10 transition-all">
+            
+            <!-- Title -->
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-950 tracking-normal mb-5">
                 Daftar ke GoProgramz
-            </h2>
+            </h1>
 
-            <form onsubmit="handleAuthSubmit(event, 'Pendaftaran Berhasil! Silakan Login.')" class="space-y-4">
-                <div>
-                    <input type="email" required placeholder="E-Mail" class="w-full px-5 py-3 rounded-xl bg-[#d9d9d9] border border-slate-400 text-slate-800 placeholder-slate-600 font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e88e5] focus:bg-white transition-all">
-                </div>
-                <div>
-                    <input type="text" required placeholder="Username" class="w-full px-5 py-3 rounded-xl bg-[#d9d9d9] border border-slate-400 text-slate-800 placeholder-slate-600 font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e88e5] focus:bg-white transition-all">
-                </div>
-                <div>
-                    <input type="password" required placeholder="Password" class="w-full px-5 py-3 rounded-xl bg-[#d9d9d9] border border-slate-400 text-slate-800 placeholder-slate-600 font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e88e5] focus:bg-white transition-all">
-                </div>
-                <div>
-                    <input type="password" required placeholder="Konfirmasi Password" class="w-full px-5 py-3 rounded-xl bg-[#d9d9d9] border border-slate-400 text-slate-800 placeholder-slate-600 font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e88e5] focus:bg-white transition-all">
+            <!-- Form -->
+            <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-3">
+                
+                <!-- E-Mail Input -->
+                <div class="relative">
+                    <input 
+                        type="email" 
+                        id="emailInput" 
+                        required 
+                        placeholder="E-Mail" 
+                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                    >
                 </div>
 
-                <div class="pt-3 flex justify-center">
-                    <button type="submit" class="bg-[#2094f3] hover:bg-[#1976d2] text-white font-extrabold px-10 py-2.5 rounded-full text-base sm:text-lg shadow-md hover:shadow-lg transition-all transform active:scale-95">
-                        Daftar
+                <!-- Username Input -->
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="usernameInput" 
+                        required 
+                        placeholder="Username" 
+                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                    >
+                </div>
+
+                <!-- Password Input -->
+                <div class="relative">
+                    <input 
+                        type="password" 
+                        id="passwordInput" 
+                        required 
+                        placeholder="Password" 
+                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                    >
+                </div>
+
+                <!-- Password Confirmation Input -->
+                <div class="relative">
+                    <input 
+                        type="password" 
+                        id="confirmPasswordInput" 
+                        required 
+                        placeholder="Konfirmasi Password" 
+                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                    >
+                </div>
+
+                <!-- Register Submit Button -->
+                <div class="pt-2 flex justify-center">
+                    <button 
+                        type="submit" 
+                        id="submitBtn"
+                        class="bg-[#2094f3] hover:bg-[#1976d2] text-white font-bold px-7 py-1.5 rounded-full text-base sm:text-lg shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center justify-center min-w-[110px]"
+                    >
+                        <span>Daftar</span>
                     </button>
                 </div>
             </form>
 
-            <p class="text-center text-xs sm:text-sm font-semibold text-slate-700 mt-6">
-                Sudah Punya Akun? 
-                <button type="button"  class="text-[#2094f3] hover:underline font-bold">
-                    <a href="login.html" >Login Sekarang!</a> 
-                </button>
-            </p>
+            <!-- Login Prompt Link -->
+            <div class="mt-3">
+                <p class="text-xs sm:text-[13px] font-semibold text-slate-950 tracking-normal">
+                    Sudah Punya Akun? <button 
+                        type="button" 
+                        onclick="showNotice('Navigasi ke Halaman Login')" 
+                        class="text-[#2094f3] hover:underline font-bold transition-colors focus:outline-none"
+                    ><a href="login.html"> Login Sekarang!</a></button>
+                </p>
+            </div>
         </div>
 
-        <!-- Center Login Card (Swappable View) -->
-        <div id="loginCardView" class="hidden relative z-10 w-full max-w-md bg-[#e3e3e3] text-slate-800 rounded-[32px] p-8 sm:p-10 card-shadow border border-white/20 transition-all transform duration-300">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-slate-900 mb-8 tracking-tight">
-                Login ke GoProgramz
-            </h2>
-
-            <form onsubmit="handleAuthSubmit(event, 'Login Berhasil! Selamat Datang Kembali.')" class="space-y-4">
-                <div>
-                    <input type="text" required placeholder="E-Mail atau Username" class="w-full px-5 py-3 rounded-xl bg-[#d9d9d9] border border-slate-400 text-slate-800 placeholder-slate-600 font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e88e5] focus:bg-white transition-all">
-                </div>
-                <div>
-                    <input type="password" required placeholder="Password" class="w-full px-5 py-3 rounded-xl bg-[#d9d9d9] border border-slate-400 text-slate-800 placeholder-slate-600 font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e88e5] focus:bg-white transition-all">
-                </div>
-
-                <div class="pt-3 flex justify-center">
-                    <button type="submit" class="bg-[#2094f3] hover:bg-[#1976d2] text-white font-extrabold px-10 py-2.5 rounded-full text-base sm:text-lg shadow-md hover:shadow-lg transition-all transform active:scale-95">
-                        Login
-                    </button>
-                </div>
-            </form>
-
-            <p class="text-center text-xs sm:text-sm font-semibold text-slate-700 mt-6">
-                Belum Punya Akun? 
-                <button type="button" onclick="switchToRegisterView()" class="text-[#2094f3] hover:underline font-bold">
-                    Daftar Sekarang!
-                </button>
-            </p>
-        </div>
     </main>
 
-    <!-- Toast Notification -->
-    <div id="toastNotification" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl hidden items-center space-x-3 z-50 border border-slate-700">
-        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
-        <span id="toastMessage" class="text-sm font-semibold"></span>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl hidden items-center space-x-3 z-50 border border-slate-700 transition-all">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toastText" class="text-sm font-semibold"></span>
     </div>
 
     <script>
-        function switchToLoginView() {
-            document.getElementById('registerCardView').classList.add('hidden');
-            document.getElementById('loginCardView').classList.remove('hidden');
-            const topAuthBtn = document.getElementById('navTopAuthBtn');
-            if (topAuthBtn) {
-                topAuthBtn.innerText = 'Daftar';
-                topAuthBtn.onclick = switchToRegisterView;
+        // Handle Register Submission
+        function handleRegisterSubmit(event) {
+            event.preventDefault();
+
+            const password = document.getElementById('passwordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+
+            if (password !== confirmPassword) {
+                showNotice('Password dan Konfirmasi Password tidak cocok!');
+                return;
             }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i>';
+
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showNotice('Pendaftaran Berhasil! Silakan Login.');
+                document.getElementById('registerForm').reset();
+            }, 1000);
         }
 
-        function switchToRegisterView() {
-            document.getElementById('loginCardView').classList.add('hidden');
-            document.getElementById('registerCardView').classList.remove('hidden');
-            const topAuthBtn = document.getElementById('navTopAuthBtn');
-            if (topAuthBtn) {
-                topAuthBtn.innerText = 'Login';
-                topAuthBtn.onclick = switchToLoginView;
-            }
-        }
-
-        function handleAuthSubmit(e, successMsg) {
-            e.preventDefault();
-            showToast(successMsg);
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toastNotification');
-            const toastMsg = document.getElementById('toastMessage');
-            toastMsg.innerText = msg;
+        // Show Toast Notification
+        function showNotice(message) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            toastText.innerText = message;
+            
             toast.classList.remove('hidden');
             toast.classList.add('flex');
 
